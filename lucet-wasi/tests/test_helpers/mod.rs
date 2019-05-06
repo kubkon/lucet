@@ -1,7 +1,5 @@
 use failure::{bail, Error};
 use lucet_runtime::{DlModule, Limits, MmapRegion, Module, Region};
-use lucet_wasi::host::__wasi_exitcode_t;
-use lucet_wasi::{WasiCtx, WasiCtxBuilder};
 use lucet_wasi_sdk::{CompileOpts, Link};
 use lucetc::{Bindings, Lucetc, LucetcOpts};
 use std::fs::File;
@@ -10,6 +8,8 @@ use std::os::unix::io::{FromRawFd, IntoRawFd};
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use tempfile::TempDir;
+use wasi_common::ctx::{WasiCtx, WasiCtxBuilder};
+use wasi_common::host::__wasi_exitcode_t;
 
 pub const LUCET_WASI_ROOT: &'static str = env!("CARGO_MANIFEST_DIR");
 

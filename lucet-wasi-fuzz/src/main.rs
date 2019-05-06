@@ -1,8 +1,6 @@
 use failure::{bail, ensure, format_err, Error};
 use libc::c_ulong;
 use lucet_runtime::{DlModule, Limits, MmapRegion, Module, Region};
-use lucet_wasi::host::__wasi_exitcode_t;
-use lucet_wasi::{WasiCtx, WasiCtxBuilder};
 use lucet_wasi_sdk::{CompileOpts, Link};
 use lucetc::{Bindings, Lucetc, LucetcOpts};
 use rand::prelude::random;
@@ -18,6 +16,8 @@ use std::time::Duration;
 use structopt::StructOpt;
 use tempfile::TempDir;
 use wait_timeout::ChildExt;
+use wasi_common::ctx::{WasiCtx, WasiCtxBuilder};
+use wasi_common::host::__wasi_exitcode_t;
 
 const LUCET_WASI_FUZZ_ROOT: &'static str = env!("CARGO_MANIFEST_DIR");
 

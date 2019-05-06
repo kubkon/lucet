@@ -13,6 +13,7 @@ human-size = "0.4"
 libc = "0.2"
 lucet-runtime = { path = "../lucet-runtime" }
 lucet-runtime-internals = { path = "../lucet-runtime/lucet-runtime-internals" }
+wasi-common = { git = "https://github.com/kubkon/wasi-common" }
 nix = "0.13"
 rand = "0.6"
 
@@ -22,7 +23,7 @@ lucet-wasi-sdk = { path = "../lucet-wasi-sdk" }
 tempfile = "3.0"
 
 [build-dependencies]
-bindgen = "0.47"
+bindgen = "0.49.0"
 
 [lib]
 name = "lucet_wasi"

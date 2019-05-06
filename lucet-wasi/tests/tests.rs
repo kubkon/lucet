@@ -1,10 +1,10 @@
 mod test_helpers;
 
 use crate::test_helpers::{run, run_with_stdout, LUCET_WASI_ROOT};
-use lucet_wasi::{WasiCtx, WasiCtxBuilder};
 use std::fs::File;
 use std::path::Path;
 use tempfile::TempDir;
+use wasi_common::ctx::{WasiCtx, WasiCtxBuilder};
 
 #[test]
 fn hello() {

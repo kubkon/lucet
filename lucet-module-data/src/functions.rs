@@ -16,12 +16,17 @@ pub struct FunctionSpec {
     code_addr: u64,
     code_len: u32,
     traps_addr: u64,
-    traps_len: u64
+    traps_len: u64,
 }
 
 impl FunctionSpec {
     pub fn new(code_addr: u64, code_len: u32, traps_addr: u64, traps_len: u64) -> Self {
-        FunctionSpec { code_addr, code_len, traps_addr, traps_len }
+        FunctionSpec {
+            code_addr,
+            code_len,
+            traps_addr,
+            traps_len,
+        }
     }
     pub fn code_len(&self) -> u32 {
         self.code_len
@@ -47,10 +52,7 @@ impl FunctionSpec {
     pub fn traps(&self) -> Option<TrapManifest> {
         let traps_ptr = self.traps_addr as *const TrapSite;
         if !traps_ptr.is_null() {
-            let traps_slice =
-                unsafe {
-                    from_raw_parts(traps_ptr, self.traps_len as usize)
-                };
+            let traps_slice = unsafe { from_raw_parts(traps_ptr, self.traps_len as usize) };
             Some(TrapManifest::new(traps_slice))
         } else {
             None

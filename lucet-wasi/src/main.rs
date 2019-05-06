@@ -5,9 +5,9 @@ use clap::Arg;
 use human_size::{Byte, Size};
 use lucet_runtime::{self, DlModule, Limits, MmapRegion, Module, Region};
 use lucet_runtime_internals::module::ModuleInternal;
-use lucet_wasi::{hostcalls, WasiCtxBuilder};
 use std::fs::File;
 use std::sync::Arc;
+use wasi_common::ctx::WasiCtxBuilder;
 
 struct Config<'a> {
     lucet_module: &'a str,
@@ -21,7 +21,7 @@ fn main() {
     // No-ops, but makes sure the linker doesn't throw away parts
     // of the runtime:
     lucet_runtime::lucet_internal_ensure_linked();
-    hostcalls::ensure_linked();
+    lucet_wasi::hostcalls::ensure_linked();
 
     let matches = app_from_crate!()
         .arg(
@@ -194,7 +194,7 @@ fn run(config: Config) {
             Err(lucet_runtime::Error::RuntimeTerminated(
                 lucet_runtime::TerminationDetails::Provided(any),
             )) => *any
-                .downcast_ref::<lucet_wasi::host::__wasi_exitcode_t>()
+                .downcast_ref::<wasi_common::host::__wasi_exitcode_t>()
                 .expect("termination yields an exitcode"),
             Err(e) => panic!("lucet-wasi runtime error: {}", e),
         }

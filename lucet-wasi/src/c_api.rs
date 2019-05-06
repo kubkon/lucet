@@ -1,10 +1,11 @@
-use crate::ctx::WasiCtxBuilder;
 use lucet_runtime::{DlModule, Module, Region};
 use lucet_runtime_internals::c_api::{lucet_dl_module, lucet_error, lucet_instance, lucet_region};
 use lucet_runtime_internals::instance::instance_handle_to_raw;
 use lucet_runtime_internals::{assert_nonnull, with_ffi_arcs};
 use std::ffi::CStr;
 use std::sync::Arc;
+use wasi_common::ctx::WasiCtxBuilder;
+use crate::hostcalls;
 
 #[repr(C)]
 pub struct lucet_wasi_ctx {
@@ -94,5 +95,5 @@ pub unsafe extern "C" fn lucet_region_new_instance_with_wasi_ctx(
 #[no_mangle]
 #[doc(hidden)]
 pub extern "C" fn lucet_wasi_internal_ensure_linked() {
-    crate::hostcalls::ensure_linked();
+    hostcalls::ensure_linked();
 }

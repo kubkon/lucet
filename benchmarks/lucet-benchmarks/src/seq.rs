@@ -1,7 +1,7 @@
 use crate::modules::*;
 use criterion::Criterion;
 use lucet_runtime::{DlModule, InstanceHandle, Limits, Module, Region, RegionCreate};
-use lucet_wasi::WasiCtxBuilder;
+use wasi_common::ctx::WasiCtxBuilder;
 use std::path::Path;
 use std::sync::Arc;
 use tempfile::TempDir;
@@ -358,13 +358,16 @@ fn run_hostcall_wrapped<R: RegionCreate + 'static>(c: &mut Criterion) {
     let module = hostcalls_mock();
     let region = R::create(1, &Limits::default()).unwrap();
 
-    c.bench_function(&format!("run_hostcall_wrapped ({})", R::TYPE_NAME), move |b| {
-        b.iter_batched_ref(
-            || region.new_instance(module.clone()).unwrap(),
-            |inst| body(inst),
-            criterion::BatchSize::PerIteration,
-        )
-    });
+    c.bench_function(
+        &format!("run_hostcall_wrapped ({})", R::TYPE_NAME),
+        move |b| {
+            b.iter_batched_ref(
+                || region.new_instance(module.clone()).unwrap(),
+                |inst| body(inst),
+                criterion::BatchSize::PerIteration,
+            )
+        },
+    );
 }
 
 fn run_hostcall_raw<R: RegionCreate + 'static>(c: &mut Criterion) {

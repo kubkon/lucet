@@ -1,4 +1,4 @@
-WASI_CC ?= /opt/wasi-sdk/bin/clang
+WASI_CC ?= /opt/wasi-sdk/bin/clang --sysroot=/opt/wasi-sdk/share/sysroot
 WASI_LD ?= /opt/wasi-sdk/bin/wasm-ld
 
 default: run-hello
