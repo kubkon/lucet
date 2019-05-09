@@ -17,25 +17,25 @@ use lucet_runtime::{lucet_hostcall_terminate, lucet_hostcalls};
 use wasi_common::ctx::{VmContext, WasiCtx};
 use wasi_common::{host, wasm32};
 
-struct VmCtx {
-    vmctx: *mut Vmctx,
+struct VmCtx<'a> {
+    vmctx: &'a Vmctx,
 }
 
-impl VmContext for VmCtx {
-    fn as_wasi_ctx(&self) -> *const WasiCtx {
-        unsafe { &*(&*self.vmctx).get_embed_ctx::<WasiCtx>() }
+impl<'a> VmContext for VmCtx<'a> {
+    fn get_ctx(&self) -> core::cell::Ref<WasiCtx> {
+        self.vmctx.get_embed_ctx::<WasiCtx>()
     }
 
-    fn as_wasi_ctx_mut(&mut self) -> *mut WasiCtx {
-        unsafe { &mut *(&mut *self.vmctx).get_embed_ctx_mut::<WasiCtx>() }
+    fn get_ctx_mut(&self) -> core::cell::RefMut<WasiCtx> {
+        self.vmctx.get_embed_ctx_mut::<WasiCtx>()
     }
 
     unsafe fn dec_ptr(
-        &mut self,
+        &self,
         ptr: wasm32::uintptr_t,
         len: usize,
     ) -> Result<*mut u8, host::__wasi_errno_t> {
-        unsafe { memory::dec_ptr(&*self.vmctx, ptr, len) }
+        memory::dec_ptr(self.vmctx, ptr, len)
     }
 }
 

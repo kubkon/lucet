@@ -11,7 +11,7 @@ lucet-runtime = { path = "../../lucet-runtime" }
 lucet-runtime-internals = { path = "../../lucet-runtime/lucet-runtime-internals" }
 lucet-wasi = { path = "../../lucet-wasi" }
 lucet-wasi-sdk = { path = "../../lucet-wasi-sdk" }
-wasi-common = { git = "https://github.com/kubkon/wasi-common" }
+wasi-common = { git = "https://github.com/kubkon/wasi-common", branch="closer-to-lucet" }
 nix = "0.13"
 num_cpus = "1.0"
 rayon = "1.0"

@@ -14,7 +14,7 @@ use wasi_common::{host, wasm32};
 
 macro_rules! bail_errno {
     ( $errno:ident ) => {
-        return Err(host::$errno as host::__wasi_errno_t);
+        return Err(host::$errno);
     };
 }
 
